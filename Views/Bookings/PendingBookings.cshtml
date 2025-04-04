@@ -1,0 +1,130 @@
+@model IEnumerable<HotelManagementSystem.Models.Booking>
+
+<style>
+    body {
+        background: linear-gradient(to right, black, #383838);
+        padding: 20px;
+    }
+    .booking-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .booking-header {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: white;
+        text-align: center;
+    }
+    .booking-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .guest-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .guest-item:last-child {
+        border-bottom: none;
+    }
+    .guest-name {
+        font-weight: bold;
+        width: 150px;
+        min-width: 150px;
+    }
+    .room-info {
+        flex: 1;
+        padding-left: 15px;
+    }
+    .room-details {
+        display: flex;
+        gap: 15px;
+    }
+    .detail-item {
+        min-width: 100px;
+    }
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .status-pending {
+        background-color: #FFD700;
+        color: #856404;
+    }
+    .action-btn {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        background-color: #28a745;
+        color: white;
+        white-space: nowrap;
+    }
+    .action-btn:hover {
+        background-color: #218838;
+    }
+    .guest-list-header {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        font-weight: bold;
+    }
+</style>
+
+<div class="booking-container">
+    <h1 class="booking-header">Pending Booking</h1>
+    
+    <div class="booking-card">
+        <div class="guest-list">
+            <div class="guest-list-header">
+                <div class="guest-name">Guest Name</div>
+                <div class="room-info">
+                    <div class="room-details">
+                        <div class="detail-item">Room</div>
+                        <div class="detail-item">Check-in Date</div>
+                        <div class="detail-item">Check-out Date</div>
+                        <div class="detail-item">Status</div>
+                        <div class="detail-item">Action</div>
+                    </div>
+                </div>
+            </div>
+
+            @foreach (var booking in Model)
+            {
+                <div class="guest-item">
+                    <div class="guest-name">@booking.GuestName</div>
+                    <div class="room-info">
+                        <div class="room-details">
+                            <div class="detail-item">@booking.Room?.Name</div>
+                            <div class="detail-item">@booking.CheckinDate.ToString("dd MMM, yyyy")</div>
+                            <div class="detail-item">@booking.CheckoutDate.ToString("dd MMM, yyyy")</div>
+                            <div class="detail-item">
+                                <span class="status-badge status-pending">Pending</span>
+                            </div>
+                            <div class="detail-item">
+                                @if (!booking.IsCheckedIn)
+                                {
+                                    <button class="action-btn" onclick="window.location.href='@Url.Action("CheckIn", "Bookings", new { id = booking.Id })'">Check in</button>
+                                }
+                                else if (!booking.IsCheckedOut)
+                                {
+                                    <button class="action-btn" onclick="window.location.href='@Url.Action("CheckOut", "Bookings", new { id = booking.Id })'">Check out</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

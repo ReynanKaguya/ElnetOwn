@@ -1,0 +1,68 @@
+@model IEnumerable<Room>
+
+@{
+    ViewData["Title"] = "Rooms & Rates";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, black, #383838);
+        color: white;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+    }
+
+    .card img {
+        border-radius: 10px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    h2.text-center {
+        color: white;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center">Rooms & Rates</h2>
+    @if (Model != null && Model.Any()) 
+    {
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="@room.ImageUrl" class="card-img-top" alt="Room">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.RoomType - @room.RoomNumber</h5>
+                            <p class="card-text">$@room.PricePerNight per night</p>
+                            <p>Status: <strong>@room.Status</strong></p>
+                            <a href="/Bookings/Create?roomId=@room.Id" class="btn btn-success">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted">No rooms available.</p>
+    }
+</div>

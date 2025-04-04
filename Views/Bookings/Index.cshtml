@@ -1,0 +1,22 @@
+@model IEnumerable<HotelManagementSystem.Models.Room>
+
+<h2>Available Rooms</h2>
+
+<div class="row">
+    @foreach (var room in Model) // ✅ Now correctly iterating through Rooms
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img src="@room.ImageUrl" class="card-img-top" alt="Room Image">
+                <div class="card-body">
+                    <h5 class="card-title">@room.RoomType - @room.RoomNumber</h5>
+                    <p class="card-text">$@room.PricePerNight per night</p>
+                    <p class="card-text">Status: <strong>@room.Status</strong></p>
+                    <a asp-controller="Bookings" asp-action="Create" asp-route-roomId="@room.Id" class="btn btn-success">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

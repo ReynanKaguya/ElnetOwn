@@ -1,0 +1,103 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: grey;
+}
+
+/* Logo Styling */
+.logo {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+.text-yellow {
+    color: #f4c400;
+}
+
+.text-green {
+    color: #095a3b;
+}
+
+/* Booking Confirmation Styling */
+.confirmation {
+    max-width: 600px;
+    margin: auto;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #095a3b;
+    font-size: 1.8rem;
+}
+
+h3 {
+    color: #095a3b;
+    font-size: 1.5rem;
+}
+
+.guest-name {
+    font-weight: bold;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.pending {
+    color: red;
+}
+
+/* Booking Details */
+.booking-details {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.booking-details label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.booking-details input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: #e9ecef;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 10px 5px;
+    transition: 0.3s;
+}
+
+.yellow {
+    background-color: #f4c400;
+    color: black;
+}
+
+.yellow:hover {
+    background-color: #e0b000;
+}

@@ -1,0 +1,136 @@
+﻿@model IEnumerable<Room>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, black, #383838);
+        color: white;
+    }
+
+    .hero {
+        background: url('/img/backround.jpg') no-repeat center center;
+        background-size: cover;
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .search-box {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+    }
+
+    .card img {
+        border-radius: 10px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    h2.text-center {
+        color: white;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="container">
+        <h1>Book Your Stay Instantly</h1>
+        <p>Enjoy luxury and comfort at our exclusive hotel</p>
+
+        <div class="search-box">
+            <form method="get" asp-action="SearchRooms" asp-controller="Rooms">
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Check-In Date</label>
+                        <input type="date" class="form-control" name="checkin" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Check-Out Date</label>
+                        <input type="date" class="form-control" name="checkout" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Adults</label>
+                        <select class="form-control" name="adults">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Children</label>
+                        <select class="form-control" name="children">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Room Display Section -->
+<div class="container mt-5">
+    <h2 class="text-center">Available Rooms</h2>
+    @if (Model != null && Model.Any()) 
+    {
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4"> <!-- ✅ 3 rooms per row on large screens -->
+                    <div class="card">
+                        <img src="/img/room.jpg" class="card-img-top" alt="Room">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.RoomType - @room.RoomNumber</h5>
+                            <p class="card-text">$@room.PricePerNight per night</p>
+                            <p>Status: <strong>@room.Status</strong></p>
+                            <a href="/Bookings/Create?roomId=@room.Id" class="btn btn-success">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted">No rooms available.</p>
+    }
+</div>

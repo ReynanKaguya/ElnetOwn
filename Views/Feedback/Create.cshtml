@@ -1,0 +1,40 @@
+@model HotelManagementSystem.Models.Feedback
+
+@{
+    ViewData["Title"] = "Submit Feedback";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">We Value Your Feedback!</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Your Name</label>
+                    <input asp-for="GuestName" class="form-control" placeholder="Enter your name" required />
+                    <span asp-validation-for="GuestName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Your Email</label>
+                    <input asp-for="GuestEmail" class="form-control" placeholder="Enter your email" required />
+                    <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Rating (1-5)</label>
+                    <input asp-for="Rating" type="number" class="form-control" placeholder="Enter rating" min="1" max="5" required />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Comments</label>
+                    <textarea asp-for="Comments" class="form-control" placeholder="Write your feedback here" rows="4" required></textarea>
+                    <span asp-validation-for="Comments" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

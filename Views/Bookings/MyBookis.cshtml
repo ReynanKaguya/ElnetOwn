@@ -1,0 +1,29 @@
+@model IEnumerable<HotelManagementSystem.Models.Booking>
+
+<h2>My Bookings</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Room</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Room?.Name</td>
+                <td>@booking.CheckinDate.ToShortDateString()</td>
+                <td>@booking.CheckoutDate.ToShortDateString()</td>
+                <td>@booking.Status</td>
+                <td>
+                    <a href="@Url.Action("Details", "Bookings", new { id = booking.Id })" class="btn btn-info">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

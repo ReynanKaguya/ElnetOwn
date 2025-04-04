@@ -1,0 +1,42 @@
+@model HotelManagementSystem.Models.ViewModels.LoginViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Cloud9 Suites</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+
+<div class="login-container">
+    <!-- Left Side - Branding -->
+    <div class="brand-container">
+        <h1><span class="text-yellow">Cloud9</span> <span class="text-green">Suites</span></h1>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="login-form-container">
+        <h2 class="text-center">Login Account</h2>
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Username</label>
+                <input asp-for="Email" class="form-control" placeholder="Username" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="8+ characters" required />
+            </div>
+            <p class="text-muted small">
+                By signing up you agree to 
+                <a href="#" class="text-warning">terms and conditions</a>.
+            </p>
+            <button type="submit" class="btn btn-warning w-100">Login</button>
+        </form>
+        <a href="#" class="d-block text-center mt-3 text-dark fw-bold">Create Account</a>
+    </div>
+</div>
+
+</body>
+</html>

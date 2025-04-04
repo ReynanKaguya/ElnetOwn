@@ -1,0 +1,51 @@
+@model HotelManagementSystem.Models.Booking
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Submitted - Cloud9 Suites</title>
+    <link rel="stylesheet" href="~/css/booking.css" />
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <h1 class="logo"><span class="text-yellow">Cloud9</span> <span class="text-green">Suites</span></h1>
+
+    <!-- Booking Confirmation -->
+    <div class="confirmation">
+        <h2>Booking Submitted</h2>
+        <h3>Thank you, <span class="guest-name">@Model.GuestName</span></h3>
+        <p>Your booking is currently <span class="status pending">Pending Approval</span>. You will receive a confirmation once it is approved.</p>
+
+        <!-- Booking Details -->
+        <div class="booking-details">
+            <label>Room</label>
+            <input type="text" value="@Model.Room?.Name" readonly />
+
+            <label>Check-in Date:</label>
+            <input type="text" value="@Model.CheckinDate.ToString("MMMM dd, yyyy")" readonly />
+
+            <label>Check-out Date:</label>
+            <input type="text" value="@Model.CheckoutDate.ToString("MMMM dd, yyyy")" readonly />
+
+            <label>Total Price:</label>
+            <input type="text" value="$@Model.TotalPrice" readonly />
+
+            <label>Status:</label>
+            <input type="text" class="pending" value="Pending" readonly />
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="buttons">
+            <a href="@Url.Action("DownloadInvoice", "Bookings", new { id = Model.Id })" class="btn yellow">Download Invoice</a>
+            <a href="/" class="btn yellow">Return Home</a>
+            <a href="@Url.Action("GiveFeedback", "Bookings", new { bookingId = Model.Id })" class="btn yellow">Give Feedback</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

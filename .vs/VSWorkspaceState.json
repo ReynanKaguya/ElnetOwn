@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Views",
+    "\\Views\\Feedback",
+    "\\Views\\Home",
+    "\\Views\\Shared",
+    "\\wwwroot",
+    "\\wwwroot\\css",
+    "\\wwwroot\\img",
+    "\\wwwroot\\js",
+    "\\wwwroot\\lib"
+  ],
+  "SelectedNode": "\\appsettings.json",
+  "PreviewInSolutionExplorer": false
+}

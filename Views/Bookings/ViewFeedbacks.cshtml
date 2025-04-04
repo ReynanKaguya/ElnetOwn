@@ -1,0 +1,19 @@
+@model List<Feedback>
+
+<h2>Guest Feedback</h2>
+
+<table>
+    <tr>
+        <th>Guest</th>
+        <th>Rating</th>
+        <th>Comments</th>
+    </tr>
+    @foreach (var feedback in Model)
+    {
+        <tr>
+            <td>@feedback.GuestName</td>
+            <td>@feedback.Rating / 5</td>
+            <td>@feedback.Comments</td>
+        </tr>
+    }
+</table>
