@@ -15,7 +15,6 @@ public class BookingsController : Controller
         _context = context;
     }
 
-    // ✅ Load Booking Form
     [HttpGet]
     public IActionResult Create(int roomId)
     {
@@ -36,198 +35,200 @@ public class BookingsController : Controller
         return View(model);
     }
 
-    // ✅ Check-in a Guest
-public async Task<IActionResult> CheckIn(int id)
-{
-    var booking = await _context.Bookings.FindAsync(id);
-    if (booking == null) return NotFound();
-
-    booking.IsCheckedIn = true;
-    booking.Status = "Checked-in";
-    await _context.SaveChangesAsync();
-
-    return RedirectToAction("PendingBookings");
-}
-[HttpGet]
-public IActionResult GiveFeedback(int bookingId)
-{
-    var booking = _context.Bookings.Find(bookingId);
-    if (booking == null) return NotFound();
-
-    var model = new FeedbackViewModel
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Book(BookingViewModel model)
     {
-        BookingId = bookingId,
-        GuestName = booking.GuestName,
-        // Optionally, prepopulate GuestEmail if needed:
-        GuestEmail = booking.GuestEmail
-    };
+        if (!ModelState.IsValid)
+        {
+            return View("Create", model);
+        }
 
-    return View(model);
-}
-public IActionResult FeedbackSuccess()
-{
-    return View();
-}
+        var room = await _context.Rooms.FindAsync(model.RoomId);
+        if (room == null)
+        {
+            return NotFound("Room not found.");
+        }
 
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> SubmitFeedback(FeedbackViewModel model)
-{
-    if (!ModelState.IsValid)
-        return View("GiveFeedback", model);
+        // ✅ Conflict check for overlapping bookings
+        bool hasConflict = _context.Bookings.Any(b =>
+            b.RoomId == model.RoomId &&
+            b.Status != "Rejected" &&
+            b.CheckinDate < model.CheckoutDate &&
+            model.CheckinDate < b.CheckoutDate);
 
-    var feedback = new Feedback
-    {
-        BookingId = model.BookingId,
-        GuestName = model.GuestName,
-        // Optionally, set GuestEmail if you include it in your view model:
-        GuestEmail = model.GuestEmail,
-        Comments = model.Comments,
-        Rating = model.Rating
-    };
+        if (hasConflict)
+        {
+            ModelState.AddModelError("", "The selected room is already booked for the selected dates.");
+            return View("Create", model);
+        }
 
-    _context.Feedbacks.Add(feedback);
-    await _context.SaveChangesAsync();
+        var booking = new Booking
+        {
+            GuestName = model.GuestName,
+            GuestEmail = model.GuestEmail,
+            RoomId = model.RoomId,
+            CheckinDate = model.CheckinDate,
+            CheckoutDate = model.CheckoutDate,
+            PaymentMethod = model.PaymentMethod,
+            Status = "Pending"
+        };
 
-    return RedirectToAction("FeedbackSuccess");
-}
+        _context.Bookings.Add(booking);
+        await _context.SaveChangesAsync();
 
-// ✅ Check-out a Guest
-public async Task<IActionResult> CheckOut(int id)
-{
-    var booking = await _context.Bookings.FindAsync(id);
-    if (booking == null) return NotFound();
-
-    booking.IsCheckedOut = true;
-    booking.Status = "Checked-out";
-    await _context.SaveChangesAsync();
-
-    return RedirectToAction("PendingBookings");
-}
-    // ✅ Show Only the Logged-in User's Bookings
-public IActionResult MyBookings()
-{
-    var userEmail = User.Identity.Name; // ✅ Get the logged-in user's email
-    var userBookings = _context.Bookings
-        .Include(b => b.Room)
-        .Where(b => b.GuestEmail == userEmail)
-        .ToList();
-
-    return View(userBookings);
-}
-public IActionResult ViewFeedbacks()
-{
-    var feedbacks = _context.Feedbacks.Include(f => f.Booking).ToList();
-    return View(feedbacks);
-}
-
-
-    // ✅ Handle Booking Submission
-    // ✅ Handle Booking Submission
-// ✅ Handle Booking Submission
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Book(BookingViewModel model)
-{
-    if (!ModelState.IsValid)
-    {
-        return View("Create", model);
+        return RedirectToAction("BookingConfirmed", "Bookings", new { id = booking.Id });
     }
 
-    var room = await _context.Rooms.FindAsync(model.RoomId);
-    if (room == null)
+    public async Task<IActionResult> CheckIn(int id)
     {
-        return NotFound("Room not found.");
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null) return NotFound();
+
+        booking.IsCheckedIn = true;
+        booking.Status = "Checked-in";
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("PendingBookings");
     }
 
-    var booking = new Booking
+    [HttpGet]
+    public IActionResult GiveFeedback(int bookingId)
     {
-        GuestName = model.GuestName,
-        GuestEmail = model.GuestEmail,
-        RoomId = model.RoomId,
-        CheckinDate = model.CheckinDate,
-        CheckoutDate = model.CheckoutDate,
-        PaymentMethod = model.PaymentMethod,
-        Status = "Pending" // Set status to Pending for guest bookings
-    };
+        var booking = _context.Bookings.Find(bookingId);
+        if (booking == null) return NotFound();
 
-    _context.Bookings.Add(booking);
-    await _context.SaveChangesAsync();
+        var model = new FeedbackViewModel
+        {
+            BookingId = bookingId,
+            GuestName = booking.GuestName,
+            GuestEmail = booking.GuestEmail
+        };
 
-    return RedirectToAction("BookingConfirmed", "Bookings", new { id = booking.Id });
-}
+        return View(model);
+    }
 
+    public IActionResult FeedbackSuccess()
+    {
+        return View();
+    }
 
-// ✅ Show Booking Confirmation Page
-public IActionResult BookingConfirmed(int id)
-{
-    var booking = _context.Bookings.Include(b => b.Room).FirstOrDefault(b => b.Id == id);
-    if (booking == null) return NotFound("Booking not found.");
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SubmitFeedback(FeedbackViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View("GiveFeedback", model);
 
-    return View(booking);
-}
-// ✅ Download Invoice (Placeholder)
-public IActionResult DownloadInvoice(int id)
-{
-    var booking = _context.Bookings.Include(b => b.Room).FirstOrDefault(b => b.Id == id);
-    if (booking == null) return NotFound("Booking not found.");
+        var feedback = new Feedback
+        {
+            BookingId = model.BookingId,
+            GuestName = model.GuestName,
+            GuestEmail = model.GuestEmail,
+            Comments = model.Comments,
+            Rating = model.Rating
+        };
 
-    var invoiceText = $"Invoice for {booking.GuestName}\n" +
-                      $"Room: {booking.Room?.Name}\n" +
-                      $"Check-in: {booking.CheckinDate}\n" +
-                      $"Check-out: {booking.CheckoutDate}\n" +
-                      $"Total Price: {booking.TotalPrice}";
+        _context.Feedbacks.Add(feedback);
+        await _context.SaveChangesAsync();
 
-    var bytes = System.Text.Encoding.UTF8.GetBytes(invoiceText);
-    return File(bytes, "text/plain", "Invoice.txt"); // ✅ Download as .txt file (You can upgrade this to PDF later)
-}
-            // ✅ Approve a Booking
-public async Task<IActionResult> Approve(int id)
-{
-    var booking = await _context.Bookings.FindAsync(id);
-    if (booking == null) return NotFound();
+        return RedirectToAction("FeedbackSuccess");
+    }
 
-    booking.Status = "Approved";
-    await _context.SaveChangesAsync();
-    
-    return RedirectToAction("PendingBookings");
-}
+    public async Task<IActionResult> CheckOut(int id)
+    {
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null) return NotFound();
 
-// ✅ Reject a Booking
-public async Task<IActionResult> Reject(int id)
-{
-    var booking = await _context.Bookings.FindAsync(id);
-    if (booking == null) return NotFound();
+        booking.IsCheckedOut = true;
+        booking.Status = "Checked-out";
+        await _context.SaveChangesAsync();
 
-    booking.Status = "Rejected";
-    await _context.SaveChangesAsync();
-    
-    return RedirectToAction("PendingBookings");
-}
+        return RedirectToAction("PendingBookings");
+    }
 
-// ✅ View Booking Details
-public async Task<IActionResult> View(int id)
-{
-    var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.Id == id);
-    if (booking == null) return NotFound();
+    public IActionResult MyBookings()
+    {
+        var userEmail = User.Identity.Name;
+        var userBookings = _context.Bookings
+            .Include(b => b.Room)
+            .Where(b => b.GuestEmail == userEmail)
+            .ToList();
 
-    return View(booking);
-}
+        return View(userBookings);
+    }
 
-    // ✅ Show All Bookings (Admin View)
+    public IActionResult ViewFeedbacks()
+    {
+        var feedbacks = _context.Feedbacks.Include(f => f.Booking).ToList();
+        return View(feedbacks);
+    }
+
+    public IActionResult BookingConfirmed(int id)
+    {
+        var booking = _context.Bookings.Include(b => b.Room).FirstOrDefault(b => b.Id == id);
+        if (booking == null) return NotFound("Booking not found.");
+
+        return View(booking);
+    }
+
+    public IActionResult DownloadInvoice(int id)
+    {
+        var booking = _context.Bookings.Include(b => b.Room).FirstOrDefault(b => b.Id == id);
+        if (booking == null) return NotFound("Booking not found.");
+
+        var invoiceText = $"Invoice for {booking.GuestName}\n" +
+                          $"Room: {booking.Room?.Name}\n" +
+                          $"Check-in: {booking.CheckinDate}\n" +
+                          $"Check-out: {booking.CheckoutDate}\n" +
+                          $"Total Price: {booking.TotalPrice}";
+
+        var bytes = System.Text.Encoding.UTF8.GetBytes(invoiceText);
+        return File(bytes, "text/plain", "Invoice.txt");
+    }
+
+    public async Task<IActionResult> Approve(int id)
+    {
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null) return NotFound();
+
+        booking.Status = "Approved";
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("PendingBookings");
+    }
+
+    public async Task<IActionResult> Reject(int id)
+    {
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null) return NotFound();
+
+        booking.Status = "Rejected";
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("PendingBookings");
+    }
+
+    public async Task<IActionResult> View(int id)
+    {
+        var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.Id == id);
+        if (booking == null) return NotFound();
+
+        return View(booking);
+    }
+
     public IActionResult Index()
     {
         var bookings = _context.Bookings.Include(b => b.Room).ToList();
         return View(bookings);
     }
 
-         // ✅ Show Only Pending Bookings
-        public IActionResult PendingBookings()
-        {
-            var pendingBookings = _context.Bookings.Include(b => b.Room)
-                .Where(b => b.Status == "Pending")
-                .ToList();
+    public IActionResult PendingBookings()
+    {
+        var pendingBookings = _context.Bookings.Include(b => b.Room)
+            .Where(b => b.Status == "Pending")
+            .ToList();
 
-            return View(pendingBookings); // ✅ This view must exist!
-        }
+        return View(pendingBookings);
+    }
 }

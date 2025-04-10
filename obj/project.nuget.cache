@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YQX2ZehWKRw=",
+  "dgSpecHash": "0uVv260AwZQ=",
   "success": true,
-  "projectFilePath": "G:\\hotelsystem-main\\HotelManagementSystem.csproj",
+  "projectFilePath": "G:\\HOTEL\\HotelManagementSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\bouncycastle.cryptography\\2.5.1\\bouncycastle.cryptography.2.5.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

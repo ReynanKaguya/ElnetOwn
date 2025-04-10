@@ -23,6 +23,12 @@
                         </div>
                     </div>
 
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+{
+    <div class="alert alert-danger">@error.ErrorMessage</div>
+}
+
+
                     <!-- ✅ Booking Form Section -->
                     <div class="col-md-7">
                         <form asp-action="Book" method="post" class="booking-form">

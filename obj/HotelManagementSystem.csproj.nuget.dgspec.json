@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\hotelsystem-main\\HotelManagementSystem.csproj": {}
+    "G:\\HOTEL\\HotelManagementSystem.csproj": {}
   },
   "projects": {
-    "G:\\hotelsystem-main\\HotelManagementSystem.csproj": {
+    "G:\\HOTEL\\HotelManagementSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\hotelsystem-main\\HotelManagementSystem.csproj",
+        "projectUniqueName": "G:\\HOTEL\\HotelManagementSystem.csproj",
         "projectName": "HotelManagementSystem",
-        "projectPath": "G:\\hotelsystem-main\\HotelManagementSystem.csproj",
+        "projectPath": "G:\\HOTEL\\HotelManagementSystem.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "G:\\hotelsystem-main\\obj\\",
+        "outputPath": "G:\\HOTEL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
