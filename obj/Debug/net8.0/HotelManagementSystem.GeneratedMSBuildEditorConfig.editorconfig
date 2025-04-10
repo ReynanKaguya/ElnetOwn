@@ -24,6 +24,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/rambo/OneDrive/Desktop/HOTEL02/HOTEL02/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/rambo/OneDrive/Desktop/HOTEL02/HOTEL02/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,6 +38,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/rambo/OneDrive/Desktop/HOTEL02/HOTEL02/Views/Bookings/BookingConfirmed.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQm9va2luZ0NvbmZpcm1lZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rambo/OneDrive/Desktop/HOTEL02/HOTEL02/Views/Bookings/CheckedIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQ2hlY2tlZEluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/rambo/OneDrive/Desktop/HOTEL02/HOTEL02/Views/Bookings/Create.cshtml]

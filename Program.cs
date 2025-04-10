@@ -1,6 +1,8 @@
 using HotelManagementSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HotelManagementSystem.Services; 
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

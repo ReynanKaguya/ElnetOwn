@@ -36,6 +36,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Bookings/PendingBookings">Pending Bookings</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Bookings/CheckedIn">Checked-In Guests</a>
+                        </li>
                     }
                     else
                     {
@@ -59,6 +62,12 @@
                         <!-- Login visible only if NOT logged in -->
                         <li class="nav-item">
                             <a class="nav-link text-primary" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
+                    @if (isAdminOrStaff)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Dashboard">Dashboard</a>
                         </li>
                     }
 

@@ -45,5 +45,6 @@ namespace HotelManagementSystem.Models // ✅ Ensured correct namespace
                 return totalNights * Room.PricePerNight;
             }
         }
+        
     }
 }

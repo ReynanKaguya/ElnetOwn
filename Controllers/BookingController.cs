@@ -5,15 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using HotelManagementSystem.Models.ViewModels;
 using HotelManagementSystem.Models;
+using HotelManagementSystem.Services;
+
 
 public class BookingsController : Controller
 {
-    private readonly ApplicationDbContext _context;
 
-    public BookingsController(ApplicationDbContext context)
+    private readonly EmailService _email;
+
+    public BookingsController(ApplicationDbContext context, EmailService email)
     {
         _context = context;
+        _email = email;
     }
+
+    private readonly ApplicationDbContext _context;
+
 
     [HttpGet]
     public IActionResult Create(int roomId)
@@ -36,49 +43,59 @@ public class BookingsController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Book(BookingViewModel model)
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Book(BookingViewModel model)
+{
+    if (!ModelState.IsValid)
     {
-        if (!ModelState.IsValid)
-        {
-            return View("Create", model);
-        }
-
-        var room = await _context.Rooms.FindAsync(model.RoomId);
-        if (room == null)
-        {
-            return NotFound("Room not found.");
-        }
-
-        // ✅ Conflict check for overlapping bookings
-        bool hasConflict = _context.Bookings.Any(b =>
-            b.RoomId == model.RoomId &&
-            b.Status != "Rejected" &&
-            b.CheckinDate < model.CheckoutDate &&
-            model.CheckinDate < b.CheckoutDate);
-
-        if (hasConflict)
-        {
-            ModelState.AddModelError("", "The selected room is already booked for the selected dates.");
-            return View("Create", model);
-        }
-
-        var booking = new Booking
-        {
-            GuestName = model.GuestName,
-            GuestEmail = model.GuestEmail,
-            RoomId = model.RoomId,
-            CheckinDate = model.CheckinDate,
-            CheckoutDate = model.CheckoutDate,
-            PaymentMethod = model.PaymentMethod,
-            Status = "Pending"
-        };
-
-        _context.Bookings.Add(booking);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("BookingConfirmed", "Bookings", new { id = booking.Id });
+        return View("Create", model);
     }
+
+    var room = await _context.Rooms.FindAsync(model.RoomId);
+    if (room == null)
+    {
+        return NotFound("Room not found.");
+    }
+
+    // ✅ Check for booking conflicts
+    bool hasConflict = _context.Bookings.Any(b =>
+        b.RoomId == model.RoomId &&
+        b.Status != "Rejected" &&
+        b.CheckinDate < model.CheckoutDate &&
+        model.CheckinDate < b.CheckoutDate);
+
+    if (hasConflict)
+    {
+        ModelState.AddModelError("", "The selected room is already booked for the selected dates.");
+        return View("Create", model);
+    }
+
+    var booking = new Booking
+    {
+        GuestName = model.GuestName,
+        GuestEmail = model.GuestEmail,
+        RoomId = model.RoomId,
+        CheckinDate = model.CheckinDate,
+        CheckoutDate = model.CheckoutDate,
+        PaymentMethod = model.PaymentMethod,
+        Status = "Pending"
+    };
+
+    _context.Bookings.Add(booking);
+    await _context.SaveChangesAsync();
+
+    // ✅ Send email confirmation to guest
+    await _email.SendBookingConfirmationAsync(
+        model.GuestEmail,
+        model.GuestName,
+        room.Name,
+        model.CheckinDate,
+        model.CheckoutDate
+    );
+
+    return RedirectToAction("BookingConfirmed", "Bookings", new { id = booking.Id });
+}
+
 
     public async Task<IActionResult> CheckIn(int id)
     {
@@ -91,6 +108,16 @@ public class BookingsController : Controller
 
         return RedirectToAction("PendingBookings");
     }
+    public IActionResult CheckedIn()
+{
+    var checkedIn = _context.Bookings
+        .Include(b => b.Room)
+        .Where(b => b.Status == "Checked-in")
+        .ToList();
+
+    return View(checkedIn);
+}
+
 
     [HttpGet]
     public IActionResult GiveFeedback(int bookingId)

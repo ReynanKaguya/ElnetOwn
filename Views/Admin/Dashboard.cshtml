@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-primary">Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card shadow text-center p-3 bg-light">
+                <h4 class="text-secondary">Total Bookings</h4>
+                <h2>@ViewBag.TotalBookings</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center p-3 bg-light">
+                <h4 class="text-secondary">Total Guests</h4>
+                <h2>@ViewBag.TotalGuests</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center p-3 bg-light">
+                <h4 class="text-secondary">Revenue (₱)</h4>
+                <h2>@ViewBag.TotalRevenue.ToString("N0")</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center p-3 bg-light">
+                <h4 class="text-secondary">Avg. Rating</h4>
+                <h2>@ViewBag.AverageRating ★</h2>
+            </div>
+        </div>
+    </div>
+</div>
