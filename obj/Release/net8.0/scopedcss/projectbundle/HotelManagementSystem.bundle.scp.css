@@ -1,0 +1,30 @@
+/* _content/HotelManagementSystem/Views/Shared/_Layout.cshtml.rz.scp.css */
+html[b-zrgfpaayuh] {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html[b-zrgfpaayuh] {
+        font-size: 16px;
+    }
+}
+
+.btn:focus[b-zrgfpaayuh], .btn:active:focus[b-zrgfpaayuh], .btn-link.nav-link:focus[b-zrgfpaayuh], 
+.form-control:focus[b-zrgfpaayuh], .form-check-input:focus[b-zrgfpaayuh] {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html[b-zrgfpaayuh] {
+    position: relative;
+    min-height: 100%;
+}
+
+body[b-zrgfpaayuh] {
+    margin-bottom: 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-fluid[b-zrgfpaayuh] {
+    padding-left: 0;
+    padding-right: 0;
+}
