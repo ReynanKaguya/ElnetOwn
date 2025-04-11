@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\img\\backround.jpg"
     },
     {
+      "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\einstein.png",
+      "PackagePath": "staticwebassets\\img\\einstein.png"
+    },
+    {
       "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\hotel-banner.jpg",
       "PackagePath": "staticwebassets\\img\\hotel-banner.jpg"
     },
@@ -37,8 +41,8 @@
       "PackagePath": "staticwebassets\\img\\hotel-bj.jpg"
     },
     {
-      "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\room.jpg",
-      "PackagePath": "staticwebassets\\img\\room.jpg"
+      "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\room.png",
+      "PackagePath": "staticwebassets\\img\\room.png"
     },
     {
       "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\room1.jpg",
@@ -47,6 +51,10 @@
     {
       "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\room2.jpg",
       "PackagePath": "staticwebassets\\img\\room2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\img\\room3.jpg",
+      "PackagePath": "staticwebassets\\img\\room3.jpg"
     },
     {
       "Id": "C:\\Users\\rambo\\OneDrive\\Desktop\\HOTEL02\\HOTEL02\\wwwroot\\js\\site.js",

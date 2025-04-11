@@ -29,3 +29,44 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+.einstein-img {
+  width: 200px;
+  display: block;
+  margin: 20px auto 10px;
+}
+
+.bubble-text {
+  max-width: 500px;
+  background: #fffbe7;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  padding: 15px 25px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  animation: floatIn 0.6s ease-out;
+}
+
+.bubble-text::after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #fffbe7;
+}
+
+@keyframes floatIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

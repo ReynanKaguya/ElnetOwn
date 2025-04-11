@@ -2,6 +2,14 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
+<!-- Einstein Section -->
+<div class="npc-container d-flex flex-column align-items-center mb-4">
+    <img src="/img/einstein.png" alt="Dr. Einstein" class="einstein-img" />
+    <div id="einstein-dialogue" class="bubble-text text-center"></div>
+</div>
+
+
+<!-- Dashboard Cards -->
 <div class="container mt-5">
     <h2 class="text-center mb-4 text-primary">Admin Dashboard</h2>
 
@@ -32,3 +40,40 @@
         </div>
     </div>
 </div>
+
+<!-- Typing animation script -->
+@section Scripts {
+<script>
+    const lines = [
+        "Welcome back, Admin! 👋",
+        "Here's today's hotel report...",
+        `📊 Total Bookings: @ViewBag.TotalBookings`,
+        `🧍‍♂️ Total Guests: @ViewBag.TotalGuests`,
+        `💰 Revenue: ₱@ViewBag.TotalRevenue`,
+        `⭐ Avg. Rating: @ViewBag.AverageRating`,
+        "Keep up the good work! 💼"
+    ];
+
+    let lineIndex = 0;
+    let charIndex = 0;
+    const dialogueBox = document.getElementById('einstein-dialogue');
+
+    function typeLine() {
+        if (lineIndex >= lines.length) return;
+
+        const currentLine = lines[lineIndex];
+        if (charIndex < currentLine.length) {
+            dialogueBox.innerHTML += currentLine[charIndex];
+            charIndex++;
+            setTimeout(typeLine, 30);
+        } else {
+            dialogueBox.innerHTML += "<br/>";
+            charIndex = 0;
+            lineIndex++;
+            setTimeout(typeLine, 700);
+        }
+    }
+
+    typeLine();
+</script>
+}

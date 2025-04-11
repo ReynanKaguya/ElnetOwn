@@ -6,61 +6,68 @@
 
 <style>
     body {
-        background-color: #f8f9fa;
+        background-color: #f2f4f8;
     }
 
     h2 {
         text-align: center;
         margin-top: 40px;
         margin-bottom: 30px;
-        font-weight: bold;
-        color: #333;
+        font-weight: 700;
+        color: #2e2e2e;
     }
 
     .card {
         border: none;
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
+        background-color: #ffffff;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     }
 
     .card-img-top {
-        height: 200px;
+        height: 220px;
         object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
     }
 
     .card-body {
         padding: 1.5rem;
+        background-color: #fffefc;
     }
 
     .card-title {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 10px;
+        color: #3b3b3b;
     }
 
     .card-text {
         font-size: 1rem;
-        color: #555;
-        margin-bottom: 1rem;
+        color: #666;
+        margin-bottom: 1.2rem;
     }
 
     .btn-primary {
-        background-color: #007bff;
+        background: linear-gradient(90deg, #b29f7e, #decba4);
+        color: #fff;
+        font-weight: 600;
         border: none;
-        padding: 10px 20px;
         border-radius: 8px;
-        transition: background-color 0.3s ease;
+        transition: background 0.3s ease, color 0.3s ease;
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
+        background: linear-gradient(90deg, #c7b58a, #f2e2c0);
+        color: #000;
     }
 </style>
 
