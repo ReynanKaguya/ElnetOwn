@@ -22,30 +22,9 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// ✅ Run Setup for Roles & Admin
-await SeedRolesAndAdminAsync(app);
-
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
+// ✅ Run Setup for Roles & Admin (without async crash)
+using (var scope = app.Services.CreateScope())
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-    endpoints.MapControllers();
-    endpoints.MapRazorPages();
-});
-
-app.Run();
-
-
-// ✅ Async Setup Method
-async Task SeedRolesAndAdminAsync(WebApplication app)
-{
-    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<User>>();
@@ -54,7 +33,8 @@ async Task SeedRolesAndAdminAsync(WebApplication app)
 
     foreach (var role in roles)
     {
-        if (!await roleManager.RoleExistsAsync(role))
+        var roleExists = await roleManager.RoleExistsAsync(role);
+        if (!roleExists)
         {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
@@ -81,3 +61,20 @@ async Task SeedRolesAndAdminAsync(WebApplication app)
         }
     }
 }
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllers();
+    endpoints.MapRazorPages();
+});
+
+app.Run();
