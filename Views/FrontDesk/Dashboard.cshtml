@@ -1,0 +1,87 @@
+@model HotelManagementSystem.ViewModels.FrontDeskDashboardViewModel
+
+@{
+    ViewData["Title"] = "Front Desk Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Welcome to the Front Desk Dashboard</h2>
+
+    <!-- Today's Check-ins -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h4>Guests Checking In Today</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.CheckInsToday.Any())
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Guest Name</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model.CheckInsToday)
+                        {
+                            <tr>
+                                <td>@booking.GuestName</td>
+                                <td>@booking.Room.RoomNumber</td>
+                                <td>@booking.CheckinDate.ToShortDateString()</td>
+                                <td>@booking.CheckoutDate.ToShortDateString()</td>
+                                <td><span class="badge bg-warning text-dark">@booking.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">No guests scheduled to check in today.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Currently Checked-In -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h4>Currently Checked-In Guests</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.CurrentlyCheckedIn.Any())
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Guest Name</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model.CurrentlyCheckedIn)
+                        {
+                            <tr>
+                                <td>@booking.GuestName</td>
+                                <td>@booking.Room.RoomNumber</td>
+                                <td>@booking.CheckinDate.ToShortDateString()</td>
+                                <td>@booking.CheckoutDate.ToShortDateString()</td>
+                                <td><span class="badge bg-success">@booking.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">No guests are currently checked in.</p>
+            }
+        </div>
+    </div>
+</div>

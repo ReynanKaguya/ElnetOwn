@@ -161,15 +161,20 @@ public class BookingsController : Controller
     public IActionResult FeedbackSuccess() => View();
 
     public IActionResult MyBookings()
+{
+    if (!User.Identity.IsAuthenticated)
     {
-        var userEmail = User.Identity.Name;
-        var bookings = _context.Bookings
-            .Include(b => b.Room)
-            .Where(b => b.GuestEmail == userEmail)
-            .ToList();
-
-        return View(bookings);
+        TempData["Error"] = "Please log in to view your bookings.";
+        return RedirectToAction("Login", "Account");
     }
+
+    var userEmail = User.Identity.Name;
+    var bookings = _context.Bookings
+        .Where(b => b.GuestEmail == userEmail)
+        .ToList();
+
+    return View(bookings);
+}
 
     public IActionResult ViewFeedbacks()
     {

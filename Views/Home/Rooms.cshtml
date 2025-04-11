@@ -4,27 +4,89 @@
     ViewData["Title"] = "Rooms & Rates";
 }
 
-<h2 class="mb-4">Rooms & Rates</h2>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-@if (Model.Count == 0)
-{
-    <p>No rooms available right now.</p>
-}
-else
-{
-    <div class="row">
-        @foreach (var room in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow">
-                    <img src="@room.ImageUrl" class="card-img-top" alt="Room Image" />
-                    <div class="card-body">
-                        <h5 class="card-title">@room.Name</h5>
-                        <p class="card-text">₱@room.PricePerNight per night</p>
-                        <a asp-controller="Bookings" asp-action="Create" asp-route-roomId="@room.Id" class="btn btn-primary">Book Now</a>
+    h2 {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <h2>Rooms & Rates</h2>
+
+    @if (Model.Count == 0)
+    {
+        <p class="text-center text-muted">No rooms available right now.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card h-100">
+                        <img src="@room.ImageUrl" class="card-img-top" alt="Room Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.Name</h5>
+                            <p class="card-text">₱@room.PricePerNight.ToString("N2") per night</p>
+                            <a asp-controller="Bookings" asp-action="Create" asp-route-roomId="@room.Id" class="btn btn-primary w-100">Book Now</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-}
+            }
+        </div>
+    }
+</div>

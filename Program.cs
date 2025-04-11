@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<User>>();
 
-    string[] roles = { "Admin", "FrontDesk", "Housekeeping", "Guest" };
+    string[] roles = { "Admin", "FrontDesk", "Housekeeping", "Guest", "User" };
 
     foreach (var role in roles)
     {
@@ -60,6 +60,27 @@ using (var scope = app.Services.CreateScope())
             await userManager.AddToRoleAsync(admin, "Admin");
         }
     }
+            // Seed FrontDesk
+        var frontDeskEmail = "frontdesk@hotel.com";
+        var frontDeskUser = await userManager.FindByEmailAsync(frontDeskEmail);
+
+        if (frontDeskUser == null)
+        {
+            var frontDesk = new User
+            {
+                FullName = "Front Desk",
+                Email = frontDeskEmail,
+                UserName = frontDeskEmail,
+                Role = "FrontDesk",
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(frontDesk, "Front123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(frontDesk, "FrontDesk");
+            }
+        }
 }
 
 app.UseStaticFiles();

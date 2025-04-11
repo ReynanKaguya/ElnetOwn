@@ -6,7 +6,9 @@
 @{
     var user = User?.Identity?.IsAuthenticated == true ? await UserManager.GetUserAsync(User) : null;
     var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>();
-    var isAdminOrStaff = roles.Contains("Admin") || roles.Contains("FrontDesk");
+    var isAdmin = roles.Contains("Admin");
+    var isFrontDesk = roles.Contains("FrontDesk");
+    var isUser = roles.Contains("User");
 }
 
 <!DOCTYPE html>
@@ -30,9 +32,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
 
-                    @if (isAdminOrStaff)
+                    <!-- Show current role -->
+                    @if (User?.Identity?.IsAuthenticated == true && roles.Any())
                     {
-                        <!-- Only Admin or FrontDesk -->
+                        <li class="nav-item d-flex align-items-center text-light me-3">
+                            Logged in as: <strong class="ms-1">@roles.First()</strong>
+                        </li>
+                    }
+
+                    <!-- Role-specific nav links -->
+                    @if (isAdmin || isFrontDesk)
+                    {
                         <li class="nav-item">
                             <a class="nav-link" href="/Bookings/PendingBookings">Pending Bookings</a>
                         </li>
@@ -42,13 +52,13 @@
                     }
                     else
                     {
-                        <!-- Default user view (including not logged in) -->
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Home/Rooms">Rooms & Rates</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Home/Contact">Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Bookings/MyBookings">My Bookings</a></li>
                     }
 
+                    <!-- Auth-based links -->
                     @if (User?.Identity?.IsAuthenticated == true)
                     {
                         <li class="nav-item">
@@ -59,12 +69,13 @@
                     }
                     else
                     {
-                        <!-- Login visible only if NOT logged in -->
                         <li class="nav-item">
                             <a class="nav-link text-primary" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
                     }
-                    @if (isAdminOrStaff)
+
+                    <!-- Dashboard only visible to Admin -->
+                    @if (isAdmin)
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="/Admin/Dashboard">Dashboard</a>
@@ -76,7 +87,15 @@
         </div>
     </nav>
 
-    <div class="container-fluid p-3 mt-5">
+    <!-- ✅ Error Alert (TempData) -->
+    <div class="container mt-5 pt-3">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-warning text-center">
+                @TempData["Error"]
+            </div>
+        }
+
         @RenderBody()
     </div>
 
