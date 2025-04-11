@@ -1,0 +1,41 @@
+@model List<HotelManagementSystem.Models.Room>
+
+@{
+    ViewData["Title"] = "Cleaning Tasks";
+}
+
+<div class="container mt-4">
+    <h2>Rooms Needing Cleaning</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-success text-center">All rooms are clean!</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Room Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in Model)
+                {
+                    <tr>
+                        <td>@room.RoomNumber</td>
+                        <td>@room.RoomType</td>
+                        <td>
+                            <form asp-action="MarkCleaned" asp-controller="FrontDesk" method="post">
+                                <input type="hidden" name="id" value="@room.Id" />
+                                <button type="submit" class="btn btn-success btn-sm">Mark as Cleaned</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

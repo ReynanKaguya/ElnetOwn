@@ -21,6 +21,9 @@ namespace HotelManagementSystem.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal PricePerNight { get; set; } = 100.00m;
 
+        public bool NeedsCleaning { get; set; } = false;
+
+
         // ✅ ImageUrl property added
         public string ImageUrl { get; set; } = "/img/default-room.jpg"; 
 

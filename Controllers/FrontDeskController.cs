@@ -16,6 +16,22 @@ namespace HotelManagementSystem.Controllers
         {
             _context = context;
         }
+        public IActionResult CleaningTasks()
+            {
+                var dirtyRooms = _context.Rooms.Where(r => r.NeedsCleaning).ToList();
+                return View(dirtyRooms);
+            }
+            [HttpPost]
+            public async Task<IActionResult> MarkCleaned(int id)
+            {
+                var room = await _context.Rooms.FindAsync(id);
+                if (room == null) return NotFound();
+
+                room.NeedsCleaning = false;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("CleaningTasks");
+            }
 
         public IActionResult Dashboard()
         {

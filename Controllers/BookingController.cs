@@ -99,16 +99,22 @@ public class BookingsController : Controller
     }
 
     public async Task<IActionResult> CheckOut(int id)
+{
+    var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.Id == id);
+    if (booking == null) return NotFound();
+
+    booking.IsCheckedOut = true;
+    booking.Status = "Checked-out";
+
+    // ✅ Set room to needs cleaning
+    if (booking.Room != null)
     {
-        var booking = await _context.Bookings.FindAsync(id);
-        if (booking == null) return NotFound();
-
-        booking.IsCheckedOut = true;
-        booking.Status = "Checked-out";
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("CheckedIn");
+        booking.Room.NeedsCleaning = true;
     }
+
+    await _context.SaveChangesAsync();
+    return RedirectToAction("PendingBookings");
+}
 
     public IActionResult CheckedIn()
     {
