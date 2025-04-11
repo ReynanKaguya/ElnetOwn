@@ -1,19 +1,17 @@
 using HotelManagementSystem.Models;
+using HotelManagementSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using HotelManagementSystem.Services; 
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Configure Database Connection
+// ✅ Configure Services
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
 
-// ✅ Configure Identity
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -24,9 +22,30 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// ✅ Ensure Roles & Admin User Exist
-using (var scope = app.Services.CreateScope())
+// ✅ Run Setup for Roles & Admin
+await SeedRolesAndAdminAsync(app);
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllers();
+    endpoints.MapRazorPages();
+});
+
+app.Run();
+
+
+// ✅ Async Setup Method
+async Task SeedRolesAndAdminAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<User>>();
@@ -62,20 +81,3 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
-
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapControllers(); // ✅ Ensure Controllers are Mapped
-    endpoints.MapRazorPages();
-});
-
-app.Run();
