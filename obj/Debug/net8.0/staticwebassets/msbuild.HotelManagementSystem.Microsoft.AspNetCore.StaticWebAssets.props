@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>1oa9pn0z0l</Fingerprint>
-      <Integrity>QdPyHrStPBdM4vlG/uTVAsfmIbIedSYS0ifqKD0PtDs=</Integrity>
+      <Fingerprint>uflpzs2mud</Fingerprint>
+      <Integrity>ysuGSAxYj7035hcmrbEoAiMJGAlLRhMufUFKdTZ2bwc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\login.css'))</OriginalItemSpec>
@@ -125,6 +125,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\backround.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\hotel-banner.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>HotelManagementSystem</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/HotelManagementSystem</BasePath>
+      <RelativePath>img/hotel-banner.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>a3hw7xcq4r</Fingerprint>
+      <Integrity>ehbPaAGX1TyD/BHWfSo2tFhB1mW/qwFLcoKbAAaWcyA=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\hotel-banner.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\hotel-bj.jpg'))">
       <SourceType>Package</SourceType>

@@ -1,42 +1,114 @@
 @model HotelManagementSystem.Models.ViewModels.LoginViewModel
 
+@{
+    ViewData["Title"] = "Login";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Cloud9 Suites</title>
-    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: url('/img/hotel-banner.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-overlay {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .brand {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .yellow { color: #fcbf16; }
+        .brand .green { color: #198754; }
+
+        .login-subtext {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .btn-login {
+            background-color: #fcbf16;
+            font-weight: 600;
+        }
+
+        .btn-login:hover {
+            background-color: #e0aa0f;
+        }
+
+        .create-account {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .create-account a {
+            color: #0d6efd;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
-<div class="login-container">
-    <!-- Left Side - Branding -->
-    <div class="brand-container">
-        <h1><span class="text-yellow">Cloud9</span> <span class="text-green">Suites</span></h1>
-    </div>
-
-    <!-- Right Side - Login Form -->
-    <div class="login-form-container">
-        <h2 class="text-center">Login Account</h2>
-        <form asp-action="Login" method="post">
-            <div class="mb-3">
-                <label class="form-label fw-bold">Username</label>
-                <input asp-for="Email" class="form-control" placeholder="Username" required />
+    <div class="login-overlay">
+        <div class="login-box">
+            <div class="brand">
+                <span class="yellow">Cloud9</span> <span class="green">Suites</span>
             </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Password</label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="8+ characters" required />
-            </div>
-            <p class="text-muted small">
-                By signing up you agree to 
-                <a href="#" class="text-warning">terms and conditions</a>.
-            </p>
-            <button type="submit" class="btn btn-warning w-100">Login</button>
-        </form>
-        <a href="#" class="d-block text-center mt-3 text-dark fw-bold">Create Account</a>
-    </div>
-</div>
+            <p class="login-subtext">Login to your account</p>
 
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="e.g. admin@hotel.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100">Login</button>
+            </form>
+
+            <div class="create-account">
+                <small>Don't have an account? <a asp-action="Register">Create Account</a></small>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
